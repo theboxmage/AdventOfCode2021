@@ -1,7 +1,7 @@
 import java.io.File
 import java.util.*
 
-class FileService(var fileName: String) {
+class FileService(private var fileName: String) {
     fun getLinesAsString(): List<String> {
         val file = Scanner(File(fileName))
         val list = ArrayList<String>()
