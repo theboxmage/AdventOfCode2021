@@ -1,5 +1,5 @@
 fun main() {
-    val line = "3"
+    val line = "4"
     when(line){
         "1" -> {
             val day1 = Day1("data/day1.txt")
@@ -18,6 +18,12 @@ fun main() {
             println("Day 3 Output")
             println("Part 1: \n\t${day3.solvePart1()}")
             println("Part 2: \n\t${day3.solvePart2()}")
+        }
+        "4" -> {
+            val day4 = Day4("data/day4.txt")
+            println("Day 4 Output")
+            println("Part 1: \n\t${day4.solvePart1()}")
+            println("Part 2: \n\t${day4.solvePart2()}")
         }
     }
 }
