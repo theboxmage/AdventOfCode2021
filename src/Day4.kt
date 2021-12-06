@@ -1,17 +1,15 @@
-import java.util.stream.Collectors
-
 class Day4(filePath: String) {
     private val fileService = FileService(filePath)
     private val input = fileService.getLinesAsString()
     private val boards = ArrayList<Board>()
-    private val numbers = input[0].split(",").stream().map { Integer.parseInt(it) }.collect(Collectors.toList())
+    private val numbers = input[0].split(",").map { Integer.parseInt(it) }
 
     fun solvePart1(): Int {
         loadBoards()
         for (i in numbers) {
             for (b in boards) {
                 if (b.runNumber(i)) {
-                    return b.score
+                    return b.getSum(i)
                 }
             }
         }
@@ -19,13 +17,11 @@ class Day4(filePath: String) {
     }
 
     fun solvePart2(): Int {
-        loadBoards()
         for (i in numbers) {
             for (b in boards.size - 1 downTo 0) {
                 if (boards[b].runNumber(i)) {
-                    if(boards.size == 1)
-                    {
-                        return boards[b].score
+                    if (boards.size == 1) {
+                        return boards[b].getSum(i)
                     }
                     boards.remove(boards[b])
                 }
@@ -35,25 +31,18 @@ class Day4(filePath: String) {
     }
 
     private fun loadBoards() {
-        var counter = 0
-        var b = Board()
-        for (i in 2 until input.size) {
-            if (input[i] == "") {
-                counter = 0
-                boards.add(boards.size, b)
-                b = Board()
-            } else {
-                b.setRow(input[i], counter)
-                counter++
+        for (i in 2 until input.size step 6) {
+            val b = Board()
+            for (j in 0..4) {
+                b.setRow(input[i + j], j)
             }
+            boards.add(boards.size, b)
         }
-        boards.add(boards.size, b)
     }
 }
 
 class Board {
     private val array = Array(5) { IntArray(5) }
-    var score = 0
     fun setRow(input: String, row: Int) {
         val splitString = Regex("\\d+").findAll(input).toList()
         for (i in 0..4) {
@@ -62,12 +51,11 @@ class Board {
     }
 
     fun runNumber(input: Int): Boolean {
-        for (i in array.indices) {
-            for (j in array.indices) {
+        for (i in 0..4) {
+            for (j in 0..4) {
                 if (array[i][j] == input) {
                     array[i][j] = -1
                     if (checkForWins(i, j)) {
-                        getSum(input)
                         return true
                     }
                 }
@@ -76,14 +64,8 @@ class Board {
         return false
     }
 
-    private fun getSum(input: Int) {
-        var sum = 0
-        for (row in array) {
-            for (number in row) {
-                sum += if (number != -1) number else 0
-            }
-        }
-        score = sum * input
+    fun getSum(input: Int): Int {
+        return array.sumOf { it.filter { it != -1 }.sum() } * input
     }
 
     private fun checkForWins(x: Int, y: Int): Boolean {
