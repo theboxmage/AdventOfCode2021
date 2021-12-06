@@ -1,18 +1,17 @@
 class Day2(fileName: String) {
     private val fileService: FileService = FileService(fileName)
-    var h = 0
-    var d = 0
-    var a = 0
-    lateinit var instructions: List<String>
+    private var h = 0
+    private var d = 0
+    private var a = 0
+    private var instructions = fileService.getLinesAsString()
 
     private fun setup() {
         h = 0
         d = 0
         a = 0
-        instructions = fileService.getLinesAsString()
     }
 
-    fun solvePart1(): String {
+    fun solvePart1(): Int {
         setup()
 
         for (instruction in instructions) {
@@ -25,27 +24,23 @@ class Day2(fileName: String) {
                 d -= Integer.parseInt(distance)
             }
         }
-        return "\tHorizontal: $h Distance: $d \n\tH*D:${h * d}"
+        return h * d
     }
 
-    fun solvePart2(): String {
+    fun solvePart2(): Int {
         setup()
 
         for (instruction in instructions) {
             val (direction, distance) = instruction.split(" ")
-            when (direction) {
-                "forward" -> {
-                    h += Integer.parseInt(distance)
-                    d += Integer.parseInt(distance) * a
-                }
-                "down" -> {
-                    a += Integer.parseInt(distance)
-                }
-                "up" -> {
-                    a -= Integer.parseInt(distance)
-                }
+            if (direction == "forward") {
+                h += Integer.parseInt(distance)
+                d += Integer.parseInt(distance) * a
+            } else if (direction == "down") {
+                a += Integer.parseInt(distance)
+            } else if (direction == "up") {
+                a -= Integer.parseInt(distance)
             }
         }
-        return "\tHorizontal: $h Distance: $d \n\tH*D:${h * d}"
+        return h * d
     }
 }
