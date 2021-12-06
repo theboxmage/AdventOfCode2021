@@ -6,9 +6,7 @@ class Day6(filePath: String) {
     private val fish = ArrayList<Long>(arrayOf(0L,0L,0L,0L,0L,0L,0L,0L,0L).asList())
 
     fun solvePart1(): Long {
-        for (i in input) {
-            fish[i] = fish[i] + 1
-        }
+        input.forEach { fish[it]++}
         for(i in 0 until 80) {
             runDay(fish)
         }
