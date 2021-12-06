@@ -3,7 +3,7 @@ import java.util.stream.Collectors
 class Day5(filePath: String) {
     private val fileService = FileService(filePath)
     private val input = fileService.getLinesAsString() as ArrayList
-    val map = LinkedHashMap<String, Int>()
+    private val map = LinkedHashMap<String, Int>()
 
     fun solvePart1(): Long {
         for (s in input.size - 1 downTo 0) {
