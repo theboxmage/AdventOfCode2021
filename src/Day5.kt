@@ -15,7 +15,7 @@ class Day5(filePath: String) {
                         addOrIncrement("${p.x1} $i")
                     }
                 } else {
-                    for (i in p.x1 downTo p.x2) {
+                    for (i in p.y1 downTo p.y2) {
                         addOrIncrement("${p.x1} $i")
                     }
                 }
