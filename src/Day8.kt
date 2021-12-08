@@ -19,19 +19,17 @@ class Day8(filePath: String) {
 
     private fun parseTemplate(template: List<String>, numbers: LinkedHashMap<Int, String>) {
         for (item in template) {
-            when (item.length) {
-                2 -> {
-                    numbers[1] = item
-                }
-                3 -> {
-                    numbers[7] = item
-                }
-                4 -> {
-                    numbers[4] = item
-                }
-                7 -> {
-                    numbers[8] = item
-                }
+            if (item.length == 2) {
+                numbers[1] = item
+            }
+            else if (item.length == 3) {
+                numbers[7] = item
+            }
+            else if (item.length == 4) {
+                numbers[4] = item
+            }
+            else if (item.length == 7) {
+                numbers[8] = item
             }
         }
     }
@@ -46,20 +44,18 @@ class Day8(filePath: String) {
             parseTemplate(template, numbers)
             for (item in template) {
                 if (!numbers.containsValue(item)) {
-                    when (item.length) {
-                        5 -> {
-                            if (intersection(item, numbers[1]!!) == 2) {
-                                numbers[3] = item
-                            }
+                    if (item.length == 5) {
+                        if (intersection(item, numbers[1]!!) == 2) {
+                            numbers[3] = item
                         }
-                        6 -> {
-                            if (intersection(item, numbers[4]!!) == 4) {
-                                numbers[9] = item
-                            } else if (intersection(item, numbers[1]!!) == 1) {
-                                numbers[6] = item
-                            } else {
-                                numbers[0] = item
-                            }
+                    }
+                    else if (item.length == 6) {
+                        if (intersection(item, numbers[4]!!) == 4) {
+                            numbers[9] = item
+                        } else if (intersection(item, numbers[1]!!) == 1) {
+                            numbers[6] = item
+                        } else {
+                            numbers[0] = item
                         }
                     }
                 }
