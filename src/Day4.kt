@@ -39,46 +39,46 @@ class Day4(filePath: String) {
             boards.add(boards.size, b)
         }
     }
-}
 
-class Board {
-    private val array = Array(5) { IntArray(5) }
-    fun setRow(input: String, row: Int) {
-        val splitString = Regex("\\d+").findAll(input).toList()
-        for (i in 0..4) {
-            array[row][i] = Integer.parseInt(splitString[i].value)
+    inner class Board {
+        private val array = Array(5) { IntArray(5) }
+        fun setRow(input: String, row: Int) {
+            val splitString = Regex("\\d+").findAll(input).toList()
+            for (i in 0..4) {
+                array[row][i] = Integer.parseInt(splitString[i].value)
+            }
         }
-    }
 
-    fun runNumber(input: Int): Boolean {
-        for (i in 0..4) {
-            for (j in 0..4) {
-                if (array[i][j] == input) {
-                    array[i][j] = -1
-                    if (checkForWins(i, j)) {
-                        return true
+        fun runNumber(input: Int): Boolean {
+            for (i in 0..4) {
+                for (j in 0..4) {
+                    if (array[i][j] == input) {
+                        array[i][j] = -1
+                        if (checkForWins(i, j)) {
+                            return true
+                        }
                     }
                 }
             }
+            return false
         }
-        return false
-    }
 
-    fun getSum(input: Int): Int {
-        return array.sumOf { it.filter { it != -1 }.sum() } * input
-    }
-
-    private fun checkForWins(x: Int, y: Int): Boolean {
-        var winOnX = true
-        var winOnY = true
-        for (i in 0..4) {
-            if (array[x][i] != -1) {
-                winOnY = false
-            }
-            if (array[i][y] != -1) {
-                winOnX = false
-            }
+        fun getSum(input: Int): Int {
+            return array.sumOf { it.filter { it != -1 }.sum() } * input
         }
-        return winOnX || winOnY
+
+        private fun checkForWins(x: Int, y: Int): Boolean {
+            var winOnX = true
+            var winOnY = true
+            for (i in 0..4) {
+                if (array[x][i] != -1) {
+                    winOnY = false
+                }
+                if (array[i][y] != -1) {
+                    winOnX = false
+                }
+            }
+            return winOnX || winOnY
+        }
     }
 }
