@@ -1,5 +1,5 @@
 fun main() {
-    when (7) {
+    when (8) {
         1 -> {
             val day1 = Day1("data/day1.txt")
             println("Day 1 Output")
@@ -41,6 +41,12 @@ fun main() {
             println("Day 7 Output")
             println("Part 1: \n\t${day7.solvePart1()}")
             println("Part 2: \n\t${day7.solvePart2()}")
+        }
+        8 -> {
+            val day8 = Day8("data/day8.txt")
+            println("Day 8 Output")
+            println("Part 1: \n\t${day8.solvePart1()}")
+            println("Part 2: \n\t${day8.solvePart2()}")
         }
     }
 }
