@@ -9,13 +9,13 @@ class Day5(filePath: String) {
 
     fun solvePart1(): Int {
         for (s in input.size - 1 downTo 0) {
-            val p = Path(input[s])
-            if (p.x1 == p.x2 || p.y1 == p.y2) {
+            val (x1, y1, x2, y2) = Regex("\\d+").findAll(input[s]).toList().stream().map { Integer.parseInt(it.value)}.collect(Collectors.toList())
+            if (x1 == x2 || y1 == y2) {
                 input.removeAt(s)
-                val distance = max(abs(p.y1 - p.y2), abs(p.x1 - p.x2))
+                val distance = max(abs(y1 - y2), abs(x1 - x2))
                 for (i in 0..distance) {
-                    val x = if (p.x1 != p.x2) p.x1 + i * if (p.x1 < p.x2) 1 else -1 else p.x1
-                    val y = if (p.y1 != p.y2) p.y1 + i * if (p.y1 < p.y2) 1 else -1 else p.y1
+                    val x = if (x1 != x2) x1 + i * if (x1 < x2) 1 else -1 else x1
+                    val y = if (y1 != y2) y1 + i * if (y1 < y2) 1 else -1 else y1
                     addOrIncrement("$x $y")
                 }
             }
@@ -25,11 +25,11 @@ class Day5(filePath: String) {
 
     fun solvePart2(): Int {
         for (path in input) {
-            val p = Path(path)
-            val distance = abs(p.x1 - p.x2)
+            val (x1, y1, x2, y2) = Regex("\\d+").findAll(path).toList().stream().map { Integer.parseInt(it.value) }.collect(Collectors.toList())
+            val distance = abs(x1 - x2)
             for (i in 0..distance) {
-                val x = p.x1 + (i * if (p.x1 < p.x2) 1 else -1)
-                val y = p.y1 + (i * if (p.y1 < p.y2) 1 else -1)
+                val x = x1 + (i * if (x1 < x2) 1 else -1)
+                val y = y1 + (i * if (y1 < y2) 1 else -1)
                 addOrIncrement("$x $y")
             }
         }
@@ -42,20 +42,5 @@ class Day5(filePath: String) {
         } else {
             map[key] = 1
         }
-    }
-}
-
-class Path(input: String) {
-    val x1: Int
-    val y1: Int
-    val x2: Int
-    val y2: Int
-
-    init {
-        val toList = Regex("\\d+").findAll(input).toList().stream().map { it.value }.collect(Collectors.toList())
-        x1 = Integer.parseInt(toList[0])
-        y1 = Integer.parseInt(toList[1])
-        x2 = Integer.parseInt(toList[2])
-        y2 = Integer.parseInt(toList[3])
     }
 }
