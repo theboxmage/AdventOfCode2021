@@ -1,6 +1,6 @@
 class Day6(filePath: String) {
     private val fileService = FileService(filePath)
-    private val input = fileService.getLinesAsString()[0].split(",").map { it.toInt() }
+    private val input = fileService.getFirstLineAsString().split(",").map { it.toInt() }
     private val fish = ArrayList<Long>(arrayOf(0L,0L,0L,0L,0L,0L,0L,0L,0L).asList())
 
     fun solvePart1(): Long {
