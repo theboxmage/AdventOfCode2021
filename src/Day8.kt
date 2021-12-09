@@ -21,21 +21,18 @@ class Day8(filePath: String) {
         for (item in template) {
             if (item.length == 2) {
                 numbers[1] = item
-            }
-            else if (item.length == 3) {
+            } else if (item.length == 3) {
                 numbers[7] = item
-            }
-            else if (item.length == 4) {
+            } else if (item.length == 4) {
                 numbers[4] = item
-            }
-            else if (item.length == 7) {
+            } else if (item.length == 7) {
                 numbers[8] = item
             }
         }
     }
 
-    fun solvePart2(): Long {
-        var count = 0L
+    fun solvePart2(): Int {
+        var count = 0
         for (line in input) {
             val (template, output) = line.split("|").map {
                 it.trim().split(" ").map { i -> i.split("").toList().sorted().stream().collect(Collectors.joining()) }
@@ -45,14 +42,17 @@ class Day8(filePath: String) {
             for (item in template) {
                 if (!numbers.containsValue(item)) {
                     if (item.length == 5) {
-                        if (intersection(item, numbers[1]!!) == 2) {
+                        if (intersection(item, numbers[1]!!).length == 2) {
                             numbers[3] = item
+                        } else if (intersection(subtraction(numbers[8]!!, numbers[4]!!), item).length == 3) {
+                            numbers[2] = item
+                        } else {
+                            numbers[5] = item
                         }
-                    }
-                    else if (item.length == 6) {
-                        if (intersection(item, numbers[4]!!) == 4) {
+                    } else if (item.length == 6) {
+                        if (intersection(item, numbers[4]!!).length == 4) {
                             numbers[9] = item
-                        } else if (intersection(item, numbers[1]!!) == 1) {
+                        } else if (intersection(item, numbers[1]!!).length == 1) {
                             numbers[6] = item
                         } else {
                             numbers[0] = item
@@ -60,25 +60,17 @@ class Day8(filePath: String) {
                     }
                 }
             }
-            for (item in template) {
-                if (!numbers.containsValue(item)) {
-                    if (item.length == 5) {
-                        if (intersection(item, numbers[6]!!) == 4) {
-                            numbers[2] = item
-                        } else {
-                            numbers[5] = item
-                        }
-                    }
-                }
-            }
-
             val reversed = numbers.entries.associate { (k, v) -> v to k }
             count += output.map { reversed[it].toString() }.stream().collect(Collectors.joining()).toInt()
         }
         return count
     }
 
-    private fun intersection(string1: String, string2: String): Int {
-        return string1.split("").intersect(string2.split("")).filter { it != "" }.size
+    private fun intersection(string1: String, string2: String): String {
+        return string1.split("").intersect(string2.split("")).filter { it != "" }.stream().collect(Collectors.joining())
+    }
+
+    private fun subtraction(string1: String, string2: String): String {
+        return string1.split("").subtract(string2.split("")).filter { it != "" }.stream().collect(Collectors.joining())
     }
 }
