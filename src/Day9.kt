@@ -17,23 +17,22 @@ class Day9(filePath: String) {
         return count
     }
 
-    fun solvePart2() {
+    fun solvePart2(): Int {
         val sizeList = ArrayList<Int>()
         for (low in lowPoints) {
             sizeList.add(getBasinSize(low))
         }
         sizeList.sortDescending()
-        println(sizeList[0]*sizeList[1]*sizeList[2])
+        return sizeList[0]*sizeList[1]*sizeList[2]
     }
 
     private fun getBasinSize(point: Pair<Int, Int>): Int {
-        val remainingPoints = ArrayList<Pair<Int, Int>>()
-        remainingPoints.add(point)
+        val remainingPoints = ArrayList<Pair<Int, Int>>(arrayListOf(point))
         val consumedPoints = ArrayList<Pair<Int, Int>>()
-        while (remainingPoints.size > 0) {
+        while (remainingPoints.isNotEmpty()) {
             val (x, y) = remainingPoints[0]
-            consumedPoints.add(remainingPoints.removeAt(0))
             val value = getPoint(x, y)
+            consumedPoints.add(remainingPoints.removeAt(0))
             for (i in -1..1 step 2) {
                 if (checkPoint(x + i, y, value) && !checkLists(consumedPoints, remainingPoints, Pair(x + i, y))) {
                     remainingPoints.add(Pair(x + i, y))
@@ -43,7 +42,6 @@ class Day9(filePath: String) {
                 }
             }
         }
-        println(consumedPoints.size)
         return consumedPoints.size
     }
 
@@ -52,20 +50,18 @@ class Day9(filePath: String) {
     }
 
     private fun checkPoint(x: Int, y: Int, value: Int): Boolean {
-        return getPoint(x, y) == value + 1 && getPoint(x, y) < 9
+        return getPoint(x, y) in (value + 1)..8
     }
 
     private fun getPoint(x: Int, y: Int): Int {
         if (input.indices.contains(y) && input[0].indices.contains(x)) {
             return input[y][x]
         }
-        return 10
+        return 9
     }
 
     private fun checkLow(x: Int, y: Int): Boolean {
-        val current = getPoint(x, y)
-        val hor = getPoint(x - 1, y) > current && getPoint(x + 1, y) > current
-        val ver = getPoint(x, y - 1) > current && getPoint(x, y + 1) > current
-        return hor && ver
+        val value = getPoint(x, y)
+        return getPoint(x - 1, y) > value && getPoint(x + 1, y) > value && getPoint(x, y - 1) > value && getPoint(x, y + 1) > value
     }
 }
