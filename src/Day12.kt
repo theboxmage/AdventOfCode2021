@@ -29,10 +29,10 @@ class Day12(filePath: String) {
     }
 
     private fun step(key: String, caveCap: Int = 0, path: ArrayList<String> = ArrayList(mutableListOf("start"))): Int {
-        var count = 0
         if (key == "end") {
             return 1
         } else {
+            var count = 0
             for (i in map[key]!!.paths) {
                 if (!(path.contains(i) && (i.all { it.isLowerCase() } && countLowercasePairs(path) >= caveCap))) {
                     val newPath = ArrayList(path)
@@ -40,8 +40,8 @@ class Day12(filePath: String) {
                     count += step(i, caveCap, newPath)
                 }
             }
+            return count
         }
-        return count
     }
 
     private fun countLowercasePairs(path: ArrayList<String>): Int {
