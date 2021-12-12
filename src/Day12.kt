@@ -1,7 +1,7 @@
 class Day12(filePath: String) {
-    val fileService = FileService(filePath)
-    val input = fileService.getLinesAsString()
-    val map = LinkedHashMap<String, MapElement>()
+    private val fileService = FileService(filePath)
+    private val input = fileService.getLinesAsString()
+    private val map = LinkedHashMap<String, MapElement>()
 
     class MapElement {
         var paths = ArrayList<String>()
