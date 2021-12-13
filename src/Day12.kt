@@ -1,19 +1,23 @@
 class Day12(filePath: String) {
     private val fileService = FileService(filePath)
     private val input = fileService.getLinesAsString()
-    private val map = LinkedHashMap<String, MapElement>()
+    private val map = LinkedHashMap<String, MutableSet<String>>()
 
     fun solvePart1(): Int {
         for (i in input) {
             val (start, end) = i.split("-")
-            if (!map.contains(start)) {
-                map[start] = MapElement()
+            if (!map.contains(start) && end != "start") {
+                map[start] = mutableSetOf()
             }
             if (!map.contains(end)) {
-                map[end] = MapElement()
+                map[end] = mutableSetOf()
             }
-            map[start]!!.addNode(end)
-            map[end]!!.addNode(start)
+            if (end != "start") {
+                map[start]!!.add(end)
+            }
+            if (start != "start") {
+                map[end]!!.add(start)
+            }
         }
         return step("start")
     }
@@ -27,7 +31,7 @@ class Day12(filePath: String) {
             return 1
         } else {
             var count = 0
-            for (i in map[key]!!.paths) {
+            for (i in map[key]!!) {
                 if (!(path.contains(i) && i[0].isLowerCase() && countLowercasePairs(path) >= caveCap)) {
                     val newPath = ArrayList(path)
                     newPath.add(i)
@@ -45,15 +49,5 @@ class Day12(filePath: String) {
             }
         }
         return 0
-    }
-
-    class MapElement {
-        var paths = ArrayList<String>()
-
-        fun addNode(element: String) {
-            if (!paths.contains(element) && element != "start") {
-                paths.add(element)
-            }
-        }
     }
 }
