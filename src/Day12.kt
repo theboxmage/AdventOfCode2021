@@ -3,16 +3,6 @@ class Day12(filePath: String) {
     private val input = fileService.getLinesAsString()
     private val map = LinkedHashMap<String, MapElement>()
 
-    class MapElement {
-        var paths = ArrayList<String>()
-
-        fun addNode(element: String) {
-            if (!paths.contains(element) && element != "start") {
-                paths.add(element)
-            }
-        }
-    }
-
     fun solvePart1(): Int {
         for (i in input) {
             val (start, end) = i.split("-")
@@ -28,13 +18,17 @@ class Day12(filePath: String) {
         return step("start")
     }
 
+    fun solvePart2(): Int {
+        return step("start", 1)
+    }
+
     private fun step(key: String, caveCap: Int = 0, path: ArrayList<String> = ArrayList(mutableListOf("start"))): Int {
         if (key == "end") {
             return 1
         } else {
             var count = 0
             for (i in map[key]!!.paths) {
-                if (!(path.contains(i) && (i.all { it.isLowerCase() } && countLowercasePairs(path) >= caveCap))) {
+                if (!(path.contains(i) && i[0].isLowerCase() && countLowercasePairs(path) >= caveCap)) {
                     val newPath = ArrayList(path)
                     newPath.add(i)
                     count += step(i, caveCap, newPath)
@@ -45,16 +39,22 @@ class Day12(filePath: String) {
     }
 
     private fun countLowercasePairs(path: ArrayList<String>): Int {
-        var count = 0
-        for (i in path.filter{it.all{i -> i.isLowerCase()}}) {
-            if(path.filter{it == i}.size > 1) {
-                count++
+        for (i in path.filter { it.all { i -> i.isLowerCase() } }) {
+            if (path.filter { it == i }.size > 1) {
+                return 1
             }
         }
-        return count/2
+        return 0
     }
 
-    fun solvePart2(): Int {
-        return step("start", 1)
+    class MapElement {
+        var paths = ArrayList<String>()
+
+        fun addNode(element: String) {
+            if (!paths.contains(element) && element != "start") {
+                paths.add(element)
+            }
+        }
     }
+
 }
