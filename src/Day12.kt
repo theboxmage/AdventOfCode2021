@@ -56,5 +56,4 @@ class Day12(filePath: String) {
             }
         }
     }
-
 }
