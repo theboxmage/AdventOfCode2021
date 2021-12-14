@@ -1,13 +1,12 @@
 class Day14(filePath: String) {
     private val fileService = FileService(filePath)
     private val input = fileService.getLinesAsString()
-    private val key = input.filter { it.contains("->") }.associateBy({ it.split(" ")[0] }, { it.split(" ")[2] })
+    private val charMap = input.filter { it.contains("->") }.associateBy({ it.split(" ")[0] }, { it.split(" ")[2] })
     fun solvePart1(): Long {
         var path = load()
         for (i in 0 until 10) {
             path = step(path)
         }
-
         return calculateAnswer(path)
     }
 
@@ -16,7 +15,6 @@ class Day14(filePath: String) {
         for (i in 0 until 40) {
             path = step(path)
         }
-
         return calculateAnswer(path)
     }
 
@@ -26,16 +24,16 @@ class Day14(filePath: String) {
         for (i in characterList) {
             sumList[i.toString()] = path.filter { it.key[0] == i }.toList().sumOf { it.second }
         }
-        sumList[input[0][input[0].length-1].toString()] = sumList[input[0][input[0].length-1].toString()]!! + 1
-        return sumList.maxOf{it.value} - sumList.minOf{it.value}
+        sumList[input[0][input[0].length - 1].toString()] = sumList[input[0][input[0].length - 1].toString()]!! + 1
+        return sumList.maxOf { it.value } - sumList.minOf { it.value }
     }
 
     private fun step(path: LinkedHashMap<String, Long>): LinkedHashMap<String, Long> {
         val newPath = LinkedHashMap<String, Long>()
         for (i in path) {
             if (path.containsKey(i.key)) {
-                val leftKey = "${i.key[0]}${key[i.key]}"
-                val rightKey = "${key[i.key]}${i.key[1]}"
+                val leftKey = "${i.key[0]}${charMap[i.key]}"
+                val rightKey = "${charMap[i.key]}${i.key[1]}"
                 newPath[leftKey] = i.value + getValue(newPath, leftKey)
                 newPath[rightKey] = i.value + getValue(newPath, rightKey)
 
