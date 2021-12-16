@@ -1,10 +1,10 @@
 import kotlin.system.measureTimeMillis as measureTimeMillis1
 
 fun main() {
-    val day13 = Day13("data/day13.txt")
-    println("Day 13 Output")
-    println("Part 1: \n\t${day13.solvePart1()}")
-    println("Part 2: \n\t${day13.solvePart2()}")
+    val day15 = Day15("data/day15.txt")
+    println("Day 15 Output")
+    println("Part 15: \n\t${day15.solvePart1()}")
+    println("Part 2: \n\t${day15.solvePart2()}")
 }
 
 fun runAll() {
@@ -81,6 +81,18 @@ fun runAll() {
                 println("Day 12 Output")
                 println("Part 1: \n\t${day12.solvePart1()}")
                 println("Part 2: \n\t${day12.solvePart2()}")
+            }
+            13 -> {
+                val day13 = Day13("data/day13.txt")
+                println("Day 13 Output")
+                println("Part 1: \n\t${day13.solvePart1()}")
+                println("Part 2: \n\t${day13.solvePart2()}")
+            }
+            14 -> {
+                val day14 = Day14("data/day14.txt")
+                println("Day 14 Output")
+                println("Part 1: \n\t${day14.solvePart1()}")
+                println("Part 2: \n\t${day14.solvePart2()}")
             }
         }
     }
@@ -160,6 +172,18 @@ fun Debug() {
                 println("Day 12 Output")
                 println("Part 1: \t${measureTimeMillis1 { day12.solvePart1() }} ms")
                 println("Part 2: \t${measureTimeMillis1 { day12.solvePart2() }} ms")
+            }
+            13 -> {
+                val day13 = Day13("data/day13.txt")
+                println("Day 13 Output")
+                println("Part 1: \t${measureTimeMillis1 { day13.solvePart1() }} ms")
+                println("Part 2: \t${measureTimeMillis1 { day13.solvePart2() }} ms")
+            }
+            14 -> {
+                val day14 = Day14("data/day14.txt")
+                println("Day 14 Output")
+                println("Part 1: \t${measureTimeMillis1 { day14.solvePart1() }} ms")
+                println("Part 2: \t${measureTimeMillis1 { day14.solvePart2() }} ms")
             }
         }
     }
