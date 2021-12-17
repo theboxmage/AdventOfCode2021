@@ -2,6 +2,7 @@ class Day16(filePath: String) {
     private val fileService = FileService(filePath)
     private val input = fileService.getLinesAsString()
     var versionSum = 0
+    var output = Pair(0L, 0)
     private val badIdea = mapOf(
         "0" to "0000",
         "1" to "0001",
@@ -23,17 +24,20 @@ class Day16(filePath: String) {
 
     fun solvePart1(): Int {
         val binary = createString()
-        println(binary)
-        step(binary)
+        output = step(binary)
         return versionSum
 //        println(runId4("101111111000101000"))
     }
 
-    private fun step(input: String): Pair<Int, Int> {
+    fun solvePart2(): Long {
+        return output.first
+    }
+
+    private fun step(input: String): Pair<Long, Int> {
         var i = 0
         val version = Integer.parseInt(input.substring(i, i + 3), 2)
         val id = Integer.parseInt(input.substring(i + 3, i + 6), 2)
-        println("$version $id ${input[6]} $input")
+        val valueList = ArrayList<Long>()
         versionSum += version
         i += 6
         var j = 0
@@ -45,23 +49,59 @@ class Day16(filePath: String) {
             if (input.substring(i, i + 1) == "0") {
                 val lengthString = Integer.parseInt(input.substring(i + 1, i + 16), 2)
                 val subPacket = input.substring(i + 16, i + lengthString + 16)
-                var value = -1
                 while (j < subPacket.length) {
                     val pair = step(subPacket.substring(j))
-                    value = pair.first
+                    valueList.add(pair.first)
                     j += pair.second
                 }
-                return Pair(value, i + j)
+                return Pair(runOperation(id, valueList), i + j + 16)
             } else {
                 val lengthString = Integer.parseInt(input.substring(i + 1, i + 12), 2)
                 val subPacket = input.substring(i + 12)
                 for (x in 0 until lengthString) {
-                    val pair = step(subPacket.substring(j))
+                    val temp = subPacket.substring(j)
+                    val pair = step(temp)
+                    valueList.add(pair.first)
                     j += pair.second
                 }
-                return Pair(0, j)
+                return Pair(runOperation(id, valueList), i + j + 12)
             }
         }
+    }
+
+    private fun runOperation(id: Int, valueList: java.util.ArrayList<Long>): Long {
+        when (id) {
+            0 -> {
+                return valueList.sum()
+            }
+            1 -> {
+                var temp = -1L
+                for (i in valueList) {
+                    if (temp == -1L) {
+                        temp = i
+                    } else {
+                        temp *= i
+                    }
+                }
+                return temp
+            }
+            2 -> {
+                return valueList.minOf { it }
+            }
+            3 -> {
+                return valueList.maxOf { it }
+            }
+            5 -> {
+                return if (valueList[0] > valueList[1]) 1 else 0
+            }
+            6 -> {
+                return if (valueList[0] < valueList[1]) 1 else 0
+            }
+            7 -> {
+                return if (valueList[0] == valueList[1]) 1 else 0
+            }
+        }
+        return -1
     }
 
 
@@ -73,7 +113,7 @@ class Day16(filePath: String) {
         return output
     }
 
-    fun runId4(input: String): Pair<Int, Int> {
+    fun runId4(input: String): Pair<Long, Int> {
         var i = 0
         var string = ""
         while (i < input.length) {
@@ -85,10 +125,8 @@ class Day16(filePath: String) {
                 break
             }
         }
-        return Pair(Integer.parseInt(string, 2), i)
+        return Pair(string.toLong(2), i)
     }
 
-    fun solvePart2() {
 
-    }
 }
