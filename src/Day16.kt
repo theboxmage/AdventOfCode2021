@@ -23,6 +23,7 @@ class Day16(filePath: String) {
 
     fun solvePart1(): Int {
         val binary = createString()
+        println(binary)
         step(binary)
         return versionSum
 //        println(runId4("101111111000101000"))
@@ -32,22 +33,25 @@ class Day16(filePath: String) {
         var i = 0
         val version = Integer.parseInt(input.substring(i, i + 3), 2)
         val id = Integer.parseInt(input.substring(i + 3, i + 6), 2)
+        println("$version $id ${input[6]} $input")
         versionSum += version
         i += 6
         var j = 0
         if (id == 4) {
             val (value, index) = runId4(input.substring(i))
             i += index
-            println("Value Found: $value")
             return Pair(value, i)
         } else {
             if (input.substring(i, i + 1) == "0") {
                 val lengthString = Integer.parseInt(input.substring(i + 1, i + 16), 2)
                 val subPacket = input.substring(i + 16, i + lengthString + 16)
+                var value = -1
                 while (j < subPacket.length) {
                     val pair = step(subPacket.substring(j))
+                    value = pair.first
                     j += pair.second
                 }
+                return Pair(value, i + j)
             } else {
                 val lengthString = Integer.parseInt(input.substring(i + 1, i + 12), 2)
                 val subPacket = input.substring(i + 12)
@@ -55,9 +59,9 @@ class Day16(filePath: String) {
                     val pair = step(subPacket.substring(j))
                     j += pair.second
                 }
+                return Pair(0, j)
             }
         }
-        return Pair(0, i)
     }
 
 
@@ -72,7 +76,7 @@ class Day16(filePath: String) {
     fun runId4(input: String): Pair<Int, Int> {
         var i = 0
         var string = ""
-        while (i < input.length && input.substring(i).any { it != '0' }) {
+        while (i < input.length) {
             string += input.substring(i + 1, i + 5)
             if (input[i] == '1') {
                 i += 5
