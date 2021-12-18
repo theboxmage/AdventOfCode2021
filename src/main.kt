@@ -1,10 +1,10 @@
 import kotlin.system.measureTimeMillis as measureTimeMillis1
 
 fun main() {
-    val day16 = Day16("data/day16.txt")
-    println("Day 16 Output")
-    println("Part 16: \n\t${day16.solvePart1()}")
-    println("Part 2: \n\t${day16.solvePart2()}")
+    val day17 = Day17("data/day17.txt")
+    println("Day 17 Output")
+    println("Part 17: \n\t${day17.solvePart1()}")
+    println("Part 2: \n\t${day17.solvePart2()}")
 }
 
 fun runAll() {
